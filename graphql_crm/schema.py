@@ -2,6 +2,9 @@ import graphene
 from graphene_django import DjangoObjectType
 from .models import Customer, Product, Order
 import re
+from crm.schema import Query, Mutation
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
 
 class CustomerType(DjangoObjectType):
     class Meta:
