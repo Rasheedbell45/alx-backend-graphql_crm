@@ -1,4 +1,5 @@
 #!/bin/bash
+
 DELETED_COUNT=$(python manage.py shell -c "
 from django.utils import timezone
 from datetime import timedelta
@@ -11,5 +12,4 @@ qs.delete()
 print(count)
 ")
 
-# Log result with timestamp
-echo \"$(date '+%Y-%m-%d %H:%M:%S') - Deleted $DELETED_COUNT inactive customers\" >> /tmp/customer_cleanup_log.txt
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Deleted $DELETED_COUNT inactive customers" >> /tmp/customercleanuplog.txt
