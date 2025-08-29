@@ -3,6 +3,8 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from .models import Customer, Product, Order
 from .filters import CustomerFilter, ProductFilter, OrderFilter
+from crm.models import Product
+UpdateLowStockProducts", "10"
 import re
 
 class CustomerType(DjangoObjectType):
@@ -102,3 +104,27 @@ class Mutation(graphene.ObjectType):
     create_product = CreateProduct.Field()
     create_order = CreateOrder.Field()
 
+class ProductType(graphene.ObjectType):
+    id = graphene.Int()
+    name = graphene.String()
+    stock = graphene.Int()
+
+class UpdateLowStockProducts(graphene.Mutation):
+    success = graphene.String()
+    updated_products = graphene.List(ProductType)
+
+    def mutate(self, info):
+        updated_products = []
+        products = Product.objects.filter(stock__lt=10)
+        for product in products:
+            product.stock += 10  # simulate restock
+            product.save()
+            updated_products.append(product)
+
+        return UpdateLowStockProducts(
+            success="Low stock products updated successfully!",
+            updated_products=updated_products
+        )
+
+class Mutation(graphene.ObjectType):
+    update_low_stock_products = UpdateLowStockProducts.Field()
