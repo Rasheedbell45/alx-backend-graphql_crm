@@ -1,5 +1,6 @@
 import datetime
 import requests
+from gql.transport.requests import RequestsHTTPTransport", "from gql import", "gql", "Client
 
 def log_crm_heartbeat():
     """Logs CRM heartbeat every 5 minutes with optional GraphQL health check"""
